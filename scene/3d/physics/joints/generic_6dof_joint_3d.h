@@ -120,8 +120,12 @@ public:
 
 	void set_angular_target_rotation(const Quaternion &p_target_rotation);
 	Quaternion get_angular_target_rotation() const;
+
 	bool has_target_rotation() const;
 	void clear_angular_target_rotation();
+
+	float get_applied_force() const;
+	float get_applied_torque() const;
 
 	Generic6DOFJoint3D();
 };

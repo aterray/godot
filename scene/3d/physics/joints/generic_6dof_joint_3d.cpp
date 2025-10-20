@@ -58,6 +58,9 @@ void Generic6DOFJoint3D::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("has_target_rotation"), &Generic6DOFJoint3D::has_target_rotation);
 	ClassDB::bind_method(D_METHOD("clear_angular_target_rotation"), &Generic6DOFJoint3D::clear_angular_target_rotation);
 
+	ClassDB::bind_method(D_METHOD("get_applied_force"), &Generic6DOFJoint3D::get_applied_force);
+	ClassDB::bind_method(D_METHOD("get_applied_torque"), &Generic6DOFJoint3D::get_applied_torque);
+
 	ADD_GROUP("Linear Limit", "linear_limit_");
 
 	ADD_PROPERTYI(PropertyInfo(Variant::BOOL, "linear_limit_x/enabled"), "set_flag_x", "get_flag_x", FLAG_ENABLE_LINEAR_LIMIT);
@@ -309,6 +312,14 @@ bool Generic6DOFJoint3D::_should_replay_param(Vector3::Axis p_axis, Param p_para
 real_t Generic6DOFJoint3D::get_param_z(Param p_param) const {
 	ERR_FAIL_INDEX_V(p_param, PARAM_MAX, 0);
 	return params_z[p_param];
+}
+
+float Generic6DOFJoint3D::get_applied_force() const {
+	return PhysicsServer3D::get_singleton()->generic_6dof_joint_get_applied_force(get_rid());
+}
+
+float Generic6DOFJoint3D::get_applied_torque() const {
+	return PhysicsServer3D::get_singleton()->generic_6dof_joint_get_applied_torque(get_rid());
 }
 
 void Generic6DOFJoint3D::set_flag_x(Flag p_flag, bool p_enabled) {
