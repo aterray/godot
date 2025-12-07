@@ -8,6 +8,8 @@ Validate extension JSON: Error: Field 'classes/PhysicsDirectSpaceState2D/methods
 Validate extension JSON: Error: Field 'classes/PhysicsDirectSpaceState2D/methods/intersect_shape/return_value': type changed value in new API, from "typedarray::Dictionary" to "bool".
 Validate extension JSON: Error: Field 'classes/PhysicsDirectSpaceState2D/methods/intersect_shape/arguments/1': type changed value in new API, from "int" to "PhysicsShapeIntersectionResult2D".
 Validate extension JSON: Error: Field 'classes/PhysicsDirectSpaceState2D/methods/intersect_shape/arguments/1': meta changed value in new API, from "int32" to "required".
+Validate extension JSON: Error: Field 'classes/PhysicsDirectSpaceState2D/methods/cast_motion/return_value': type changed value in new API, from "PackedFloat32Array" to "bool".
+Validate extension JSON: Error: Field 'classes/PhysicsDirectSpaceState2D/methods/cast_motion/arguments': size changed value in new API, from 1 to 2.
 Validate extension JSON: Error: Field 'classes/PhysicsDirectSpaceState3D/methods/intersect_point/return_value': type changed value in new API, from "typedarray::Dictionary" to "bool".
 Validate extension JSON: Error: Field 'classes/PhysicsDirectSpaceState3D/methods/intersect_point/arguments/1': type changed value in new API, from "int" to "PhysicsPointIntersectionResult3D".
 Validate extension JSON: Error: Field 'classes/PhysicsDirectSpaceState3D/methods/intersect_point/arguments/1': meta changed value in new API, from "int32" to "required".
