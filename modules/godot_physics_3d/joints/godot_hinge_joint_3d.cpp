@@ -115,6 +115,9 @@ bool GodotHingeJoint3D::setup(real_t p_step) {
 	}
 
 	m_appliedImpulse = real_t(0.);
+	m_appliedForce = Vector3();
+	m_appliedTorque = Vector3();
+	m_appliedImpulseStep = p_step;
 
 	if (!m_angularOnly) {
 		Vector3 pivotAInW = A->get_transform().xform(m_rbAFrame.origin);
@@ -240,6 +243,7 @@ void GodotHingeJoint3D::solve(real_t p_step) {
 			real_t impulse = depth * tau / p_step * jacDiagABInv - rel_vel * jacDiagABInv;
 			m_appliedImpulse += impulse;
 			Vector3 impulse_vector = normal * impulse;
+			m_appliedForce += impulse_vector;
 			if (dynamic_A) {
 				A->apply_impulse(impulse_vector, pivotAInW - A->get_transform().origin);
 			}
@@ -293,6 +297,7 @@ void GodotHingeJoint3D::solve(real_t p_step) {
 			if (dynamic_B) {
 				B->apply_torque_impulse(velrelOrthog - angularError);
 			}
+			m_appliedTorque += -velrelOrthog + angularError;
 
 			// solve limit
 			if (m_solveLimit) {
@@ -312,6 +317,7 @@ void GodotHingeJoint3D::solve(real_t p_step) {
 				if (dynamic_B) {
 					B->apply_torque_impulse(-impulse);
 				}
+				m_appliedTorque += impulse;
 			}
 		}
 
@@ -338,6 +344,7 @@ void GodotHingeJoint3D::solve(real_t p_step) {
 			if (dynamic_B) {
 				B->apply_torque_impulse(-motorImp - angularLimit);
 			}
+			m_appliedTorque += motorImp + angularLimit;
 		}
 	}
 }
@@ -438,4 +445,18 @@ bool GodotHingeJoint3D::get_flag(PS3DE::HingeJointFlag p_flag) const {
 	}
 
 	return false;
+}
+
+float GodotHingeJoint3D::get_applied_force() const {
+	if (m_appliedImpulseStep > 0.0) {
+		return m_appliedForce.length() / m_appliedImpulseStep;
+	}
+	return 0.0f;
+}
+
+float GodotHingeJoint3D::get_applied_torque() const {
+	if (m_appliedImpulseStep > 0.0) {
+		return m_appliedTorque.length() / m_appliedImpulseStep;
+	}
+	return 0.0f;
 }
