@@ -58,6 +58,8 @@ bool GodotPinJoint3D::setup(real_t p_step) {
 	}
 
 	m_appliedImpulse = real_t(0.);
+	m_appliedForce = Vector3();
+	m_appliedImpulseStep = p_step;
 
 	Vector3 normal(0, 0, 0);
 
@@ -128,6 +130,7 @@ void GodotPinJoint3D::solve(real_t p_step) {
 
 		m_appliedImpulse += impulse;
 		Vector3 impulse_vector = normal * impulse;
+		m_appliedForce += impulse_vector;
 		if (dynamic_A) {
 			A->apply_impulse(impulse_vector, pivotAInW - A->get_transform().origin);
 		}
@@ -164,6 +167,13 @@ real_t GodotPinJoint3D::get_param(PS3DE::PinJointParam p_param) const {
 	}
 
 	return 0;
+}
+
+float GodotPinJoint3D::get_applied_force() const {
+	if (m_appliedImpulseStep > 0.0) {
+		return m_appliedForce.length() / m_appliedImpulseStep;
+	}
+	return 0.0f;
 }
 
 GodotPinJoint3D::GodotPinJoint3D(GodotBody3D *p_body_a, const Vector3 &p_pos_a, GodotBody3D *p_body_b, const Vector3 &p_pos_b) :

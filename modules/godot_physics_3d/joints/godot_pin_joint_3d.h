@@ -67,6 +67,9 @@ class GodotPinJoint3D : public GodotJoint3D {
 	real_t m_impulseClamp = 0.0;
 	real_t m_appliedImpulse = 0.0;
 
+	Vector3 m_appliedForce;
+	real_t m_appliedImpulseStep = 0.0;
+
 	GodotJacobianEntry3D m_jac[3] = {}; //3 orthogonal linear constraints
 
 	Vector3 m_pivotInA;
@@ -86,6 +89,8 @@ public:
 
 	Vector3 get_position_a() { return m_pivotInA; }
 	Vector3 get_position_b() { return m_pivotInB; }
+
+	float get_applied_force() const;
 
 	GodotPinJoint3D(GodotBody3D *p_body_a, const Vector3 &p_pos_a, GodotBody3D *p_body_b, const Vector3 &p_pos_b);
 	~GodotPinJoint3D();
